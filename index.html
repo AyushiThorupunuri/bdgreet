@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    overflow-x:hidden;
+}
+
+.container{
+    width:100%;
+    max-width:600px;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:#ff4081;
+    margin-bottom:15px;
+}
+
+.cake{
+    font-size:80px;
+    animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+.message{
+    margin:20px 0;
+    color:#555;
+    line-height:1.7;
+}
+
+button{
+    background:#ff4081;
+    color:white;
+    border:none;
+    padding:14px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    margin:8px;
+    font-size:1rem;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.wish-box{
+    display:none;
+    margin-top:20px;
+}
+
+.wish{
+    background:#fff0f5;
+    padding:15px;
+    border-radius:15px;
+    margin:10px 0;
+    animation:fadeIn 1s;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.final-message{
+    display:none;
+    margin-top:20px;
+    font-size:1.3rem;
+    color:#e91e63;
+    font-weight:bold;
+}
+
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation:floatUp 6s linear infinite;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+@media(max-width:600px){
+    .cake{
+        font-size:60px;
+    }
+
+    h1{
+        font-size:1.8rem;
+    }
+
+    button{
+        width:100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <h1>🎉 Happiest Birthday AMMA🎉</h1>
+
+        <div class="cake">🎂</div>
+
+        <p class="message">
+            Today is all about celebrating YOU! ✨
+        </p>
+
+        <button onclick="showWish()">
+            💌 Open Next Wish
+        </button>
+
+        <button onclick="celebrate()">
+            🎊 Party Time
+        </button>
+
+        <div class="wish-box" id="wishBox"></div>
+
+        <div class="final-message" id="finalMessage">
+            ❤️ May our life be filled with happiness,
+            success, laughter, and endless beautiful memories! ❤️
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+const wishes = [
+"🌟 Another year for our chaos.",
+"🎁 Another year for your dreaming.",
+"💖 May all the tea we spill be continued.",
+"🌈 May your days be filled with positivity and joy.",
+"✨ May love, laughter, and good health always stay with you.",
+"🎊 You deserve all the happiness in the world today and always amma.",
+"🎂 May this year bring new adventures and success with yours beloved."
+];
+
+let index = 0;
+
+function showWish(){
+
+    const box = document.getElementById("wishBox");
+    box.style.display = "block";
+
+    if(index < wishes.length){
+
+        const wish = document.createElement("div");
+        wish.className = "wish";
+        wish.innerHTML = wishes[index];
+
+        box.appendChild(wish);
+
+        confetti({
+            particleCount:80,
+            spread:100
+        });
+
+        index++;
+
+        if(index === wishes.length){
+            document.getElementById("finalMessage").style.display = "block";
+        }
+    }
+}
+
+function celebrate(){
+
+    confetti({
+        particleCount:300,
+        spread:180,
+        origin:{y:0.6}
+    });
+
+    for(let i=0;i<30;i++){
+        createHeart();
+    }
+}
+
+function createHeart(){
+
+    const heart = document.createElement("div");
+
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (20 + Math.random()*25) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },6000);
+}
+
+window.onload = () => {
+    celebrate();
+};
+
+
+</script>
+
+</body>
+</html>
